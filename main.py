@@ -1,10 +1,8 @@
-from google_trans_new import google_translator
-
 import langs
-
+from google_trans_new import google_translator
+from tkinter import *
 
 TRANS = google_translator(url_suffix="com")
-
 
 def translate_input():
     """
@@ -31,6 +29,8 @@ def translate_input():
     else:
         translated = TRANS.translate(text, lang_src=src_lang, lang_tgt=tgt_lang)    
     
+    display_translation(text, translated)
+
     # Output translated text.
     print(f"Translated text:\n{translated}")
 
@@ -70,8 +70,31 @@ def translate_from_file():
     else:
         translated = TRANS.translate(text, lang_src=src_lang, lang_tgt=tgt_lang)    
     
+    display_translation(text, translated)
     # Output translated text.
     print(f"Translated text:\n{translated}")
+
+def display_translation(text, translated):
+	"""
+		Displays the given and translated texts in a window.
+	"""
+
+	root = Tk()
+	root.minsize(width=200, height=200)
+	root.configure(bg='white')
+	root.title('Translator')
+
+	text_label = Text(root, bg='white', wrap=WORD)
+	text_label.configure(font=('Courier', 15))
+	text_label.insert(INSERT, text)
+	text_label.pack(side='left')
+
+	translated_label = Text(root, bg='white', wrap=WORD)
+	translated_label.configure(font=('Courier', 15))
+	translated_label.insert(INSERT, translated)
+	translated_label.pack(side='right')
+
+	root.mainloop()
 
 
 def list_languages():
@@ -83,7 +106,6 @@ def list_languages():
     for lang in lang_list:
         print_str += f"{lang}\t{lang_list[lang]}\n"
     print(print_str)
-
 
 def main():
     SELECTION_MSG = \
